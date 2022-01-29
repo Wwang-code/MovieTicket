@@ -1,138 +1,56 @@
 <template>
-  <div class="city_body">
-    <div class="city_list">
-      <div class="city_hot">
-        <h2>热门城市</h2>
-        <div class="clearfix">
-          <ul>
-            <li>北京</li>
-            <li>上海</li>
-            <li>广州</li>
-            <li>深圳</li>
-            <li>杭州</li>
-            <li>长沙</li>
-            <li>武汉</li>
-            <li>郑州</li>
-          </ul>
+  <div>
+    <div class="city_name" @click="show=true">
+          <span style="font-size:15px">{{city}}</span>
+          <i class="iconfont icon-xiajiantou1"></i>
         </div>
-      </div>
-      <div class="city_sort">
-        <div>
-          <h2>A</h2>
-          <ul>
-            <li>鞍山</li>
-            <li>安庆</li>
-            <li>安阳</li>
-          </ul>
+        <van-overlay :show="show" @click="show = false" class="overlay">
+        <div class="wrapper">
+            <van-area title="地区" :area-list="areaList"  @confirm="getCity"/>
         </div>
-        <div>
-          <h2>B</h2>
-          <ul>
-            <li>北京</li>
-            <li>保定</li>
-            <li>蚌埠</li>
-            <li>包头</li>
-          </ul>
-        </div>
-        <div>
-          <h2>C</h2>
-          <ul>
-            <li>北京</li>
-            <li>保定</li>
-            <li>蚌埠</li>
-            <li>包头</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="city_index">
-        <ul>
-            <li>A</li>
-            <li>B</li>
-            <li>C</li>
-            <li>D</li>
-            <li>E</li>
-        </ul>
-    </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
-export default {};
+import { areaList } from '@vant/area-data';
+export default {
+  data() {
+    return {
+        areaList,
+        show: false,
+        city: "中原区",
+    };
+  },
+  methods: {
+      getCity(values){
+          let content=values[2].name.length>3 ? '..' : '';
+          this.city=values[2].name.substr(0,3)+content;
+      }
+  }
+};
 </script>
 
 <style scoped>
-.city_body {
-  margin-top: 45px;
-  display: flex;
+.wrapper{
+    padding-top: 130px;
+}
+.overlay{
+    z-index: 999;
+}
+#content .movie_menu {
   width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-}
-.city_body .city_list {
-  flex: 1;
-  overflow: auto;
-  background: #fff5f0;
-  margin-top: 6px;
-}
-.city_body .city_list::-webkit-scrollbar {
-  background-color: transparent;
-  width: 0;
-}
-.city_body .city_hot {
-  margin-top: 20px;
-}
-.city_body .city_hot h2 {
-  padding-left: 15px;
-  line-height: 30px;
-  font-size: 14px;
-  background: #f0f0f0;
-  font-weight: normal;
-}
-.city_body .city_hot ul {
-}
-.city_body .city_hot ul li {
-  float: left;
-  background: #fff;
-  width: 29%;
-  height: 33px;
-  margin-top: 15px;
-  margin-left: 3%;
-  padding: 0 4px;
-  border: 1px solid #e6e6e6;
-  border-radius: 3px;
-  line-height: 33px;
-  text-align: center;
-  box-sizing: border-box;
-}
-.city_body .city_sort {
-}
-.city_body .city_sort div {
-  margin-top: 20px;
-}
-.city_body .city_sort h2 {
-  padding-left: 15px;
-  line-height: 30px;
-  font-size: 14px;
-  background: #f0f0f0;
-  font-weight: normal;
-}
-.city_body .city_sort ul {
-  padding-left: 10px;
-  margin-top: 10px;
-}
-.city_body .city_sort ul li {
-  line-height: 30px;
-  line-height: 30px;
-}
-.city_body .city_index {
-  width: 20px;
+  height: 45px;
+  border-bottom: 1px solid #e6e6e6;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  border-left: 1px #e6e6e6 solid;
-  margin-top: 6px;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  z-index: 10;
+}
+.city_name {
+  margin-left: 20px;
+  height: 100%;
+  line-height: 45px;
 }
 </style>

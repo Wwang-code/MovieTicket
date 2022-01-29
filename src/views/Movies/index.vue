@@ -1,13 +1,13 @@
 <template>
   <div id="main">
     <Header title="电影" />
-    <div id="content" v-if="visible">
+    <div id="content">
       <div class="movie_menu">
         <!-- <router-link to="/movies/city"> -->
-        <div class="city_name" @click="showCity">
-          <span style="font-size:15px">郑州</span>
+        <!-- <div class="city_name" @click="show=true">
+          <span style="font-size:15px">{{city}}</span>
           <i class="iconfont icon-xiajiantou1"></i>
-        </div>
+        </div> -->
         <!-- </router-link> -->
         <div class="hot_swtich">
           <div class="hot_item">
@@ -25,9 +25,12 @@
         <router-view name="movieView" />
       </keep-alive>
     </div>
-    <div v-if="!visible" @click="visible = true">
-      <City />
-    </div>
+
+    <!-- <van-overlay :show="show" @click="show = false" class="overlay">
+        <div class="wrapper">
+            <van-area title="地区" :area-list="areaList"  @confirm="getCity"/>
+        </div>
+    </van-overlay> -->
     <Footer />
   </div>
 </template>
@@ -35,28 +38,30 @@
 <script>
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import City from "@/components/Home/City.vue";
 export default {
   name: "Movies",
   components: {
     Header,
     Footer,
-    City
   },
   data() {
     return {
-      visible: true
+        
     };
   },
   methods: {
-    showCity() {
-      this.visible = false;
-    }
+    
   }
 };
 </script>
 
 <style scoped>
+.wrapper{
+    padding-top: 130px;
+}
+.overlay{
+    z-index: 999;
+}
 #content .movie_menu {
   width: 100%;
   height: 45px;

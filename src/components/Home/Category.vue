@@ -3,20 +3,21 @@
     <ul>
       <div v-for="(item,index) in movieList" :key="index">
         <router-link tag="li" :to="{name:'moviedetail',params:{movieData:item}}">
-          <div class="pic_show">
-            <img :src="item.poster" alt />
-          </div>
-          <div class="info_list">
-            <h2>{{item.name}}</h2>
-            <p>
-              观众评分
-              <span class="grade">{{item.score}}</span>
-            </p>
-            <p>导演：{{item.director}}</p>
-            <p>主演：{{item.actor}}</p>
-            <p>今天55家影院放映155场</p>
-          </div>
-          <div class="btn_mall">购票</div>
+        <div class="pic_show">
+          <img :src="item.poster" alt />
+        </div>
+        <div class="info_list">
+          <h2>{{item.name}}</h2>
+          <p>
+            评分
+            <span class="grade">{{item.score}}</span>
+          </p>
+          <p>导演：{{item.director}}</p>
+          <p>主演：{{item.actor}}</p>
+          <p>{{item.intro}}</p>
+        </div>
+        <div class="btn_mall" v-if="item.playing==1">购票</div>
+        <div class="btn_no" v-else>暂未上映</div>
         </router-link>
       </div>
     </ul>
@@ -26,19 +27,24 @@
 <script>
 import { getPMovieList } from "@/api/index.js";
 export default {
-  name: "Playing",
+  name: "ComingSoon",
+  props: ["typeNum"],
   data() {
     return {
       movieList: []
     };
+  },
+  watch: {
+    typeNum: function(newVal, oldVal) {
+      this.loadMovieList();
+    }
   },
   created() {
     this.loadMovieList();
   },
   methods: {
     async loadMovieList() {
-      let { data: res } = await getPMovieList("1");
-      console.log(res);
+      let { data: res } = await getPMovieList(this.typeNum);
       if (res.success_code === 200) {
         this.movieList = res.data;
       }
@@ -110,6 +116,17 @@ export default {
   line-height: 28px;
   text-align: center;
   background-color: #f03d37;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.movie_body .btn_no {
+  width: 67px;
+  height: 27px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #aaa;
   color: #fff;
   border-radius: 4px;
   font-size: 12px;
