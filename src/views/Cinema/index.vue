@@ -5,11 +5,11 @@
       <!-- <div class="city_switch">
         全城
         <i class="iconfont icon-xiajiantou"></i>
-      </div> -->
-      <van-dropdown-menu>
-        <van-dropdown-item v-model="value1" :options="option1" />
+      </div>-->
+      <van-dropdown-menu >
+        <van-dropdown-item v-model="value1" :options="option1"  @change="changeVal(value1)"/>
       </van-dropdown-menu>
-      <CinemaList />
+      <CinemaList :disNum="value1" />
     </div>
     <Footer />
   </div>
@@ -30,12 +30,20 @@ export default {
     return {
       value1: 0,
       option1: [
-        { text: "全城", value: 0 },
-        { text: "金水区", value: 1 },
-        { text: "郑东新区", value: 2 },
-        { text: "中原区", value: 2 }
+        { text: "排序", value: 0 },
+        { text: "距离较近", value: 1 },
+        { text: "距离较远", value: 2 }
       ]
     };
+  },
+  created() {
+    console.log(this.value1);
+  },
+  methods: {
+    changeVal(value1) {
+      this.value1 = value1;
+      console.log(this.value1);
+    }
   }
 };
 </script>
